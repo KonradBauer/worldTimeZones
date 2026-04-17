@@ -12,7 +12,7 @@ export const useDragHourHand = (
   };
 
   const onMouseDown = useCallback(
-    (e: React.MouseEvent<SVGElement>, svg: SVGSVGElement) => {
+    (e: React.MouseEvent<SVGLineElement>, svg: SVGSVGElement) => {
       e.preventDefault();
 
       let lastAngle = getAngle(e.nativeEvent, svg);

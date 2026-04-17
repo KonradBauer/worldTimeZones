@@ -29,7 +29,7 @@ export const WorldMap = ({ activeOffset, onOffsetChange }: WorldMapProps) => {
   const activeHour = Math.round(activeOffset / 60);
 
   return (
-    <ComposableMap projection="geoEquirectangular" width={800} height={400} style={{ width: "100%", height: "auto" }}>
+    <ComposableMap projection="geoEquirectangular" width={800} height={400} style={{ width: "100%", height: "auto", background: "#0f172a" }}>
       <Geographies geography={bandsGeoJson}>
         {({ geographies }) =>
           geographies.map((geo) => {
@@ -39,13 +39,13 @@ export const WorldMap = ({ activeOffset, onOffsetChange }: WorldMapProps) => {
               <Geography
                 key={`band-${offset}`}
                 geography={geo}
-                fill={isActive ? "rgba(59,130,246,0.3)" : offset % 2 === 0 ? "rgba(200,215,230,0.15)" : "rgba(180,200,220,0.08)"}
-                stroke="rgba(100,140,180,0.2)"
-                strokeWidth={0.4}
+                fill={isActive ? "rgba(59,130,246,0.4)" : offset % 2 === 0 ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.02)"}
+                stroke="rgba(255,255,255,0.08)"
+                strokeWidth={0.5}
                 onClick={() => onOffsetChange(offset * 60)}
                 style={{
                   default: { outline: "none", cursor: "pointer" },
-                  hover: { outline: "none", fill: "rgba(59,130,246,0.2)" },
+                  hover: { outline: "none", fill: isActive ? "rgba(59,130,246,0.5)" : "rgba(59,130,246,0.15)" },
                   pressed: { outline: "none" },
                 }}
               />
@@ -60,8 +60,8 @@ export const WorldMap = ({ activeOffset, onOffsetChange }: WorldMapProps) => {
             <Geography
               key={geo.rsmKey}
               geography={geo}
-              fill="rgba(180,190,200,0.6)"
-              stroke="#fff"
+              fill="#334155"
+              stroke="#1e293b"
               strokeWidth={0.4}
               style={{
                 default: { outline: "none", pointerEvents: "none" },

@@ -18,7 +18,7 @@ export const App = () => {
     <div>
       <div className="flex justify-center gap-10 items-center">
         <AnalogClock size="small" {...prev} />
-        <AnalogClock size="large" {...main} />
+        <AnalogClock size="large" {...main} activeOffset={activeOffset} onOffsetChange={setActiveOffset} />
         <AnalogClock size="small" {...next} />
       </div>
       <WorldMap activeOffset={activeOffset} onOffsetChange={setActiveOffset} />

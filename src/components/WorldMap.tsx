@@ -29,7 +29,7 @@ export const WorldMap = ({ activeOffset, onOffsetChange }: WorldMapProps) => {
   const activeHour = Math.round(activeOffset / 60);
 
   return (
-    <ComposableMap width={800} height={400} style={{ width: "100%", height: "auto" }}>
+    <ComposableMap projection="geoEquirectangular" width={800} height={400} style={{ width: "100%", height: "auto" }}>
       <Geographies geography={bandsGeoJson}>
         {({ geographies }) =>
           geographies.map((geo) => {

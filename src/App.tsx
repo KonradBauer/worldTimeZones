@@ -1,6 +1,12 @@
+import { AnalogClock } from "./components/AnalogClock.tsx";
+
 function App() {
   return (
-    <div className="text-3xl font-bold underline text-red-500">hello world</div>
+    <div>
+      <AnalogClock size="small" />
+      <AnalogClock />
+      <AnalogClock size="small" />
+    </div>
   );
 }
 

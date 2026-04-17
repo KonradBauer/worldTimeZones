@@ -3,6 +3,7 @@ import { AnalogClock } from "./components/AnalogClock";
 import { WorldMap } from "./components/WorldMap";
 import { useTime } from "./hooks/useTime";
 import { getClockDegrees } from "./utils/clockDegrees";
+import { formatOffset } from "./utils/formatOffset";
 
 export const App = () => {
   const [activeOffset, setActiveOffset] = useState(
@@ -17,9 +18,18 @@ export const App = () => {
   return (
     <div>
       <div className="flex justify-center gap-10 items-center">
-        <AnalogClock size="small" {...prev} />
-        <AnalogClock size="large" {...main} activeOffset={activeOffset} onOffsetChange={setActiveOffset} />
-        <AnalogClock size="small" {...next} />
+        <div className="flex flex-col items-center gap-2">
+          <AnalogClock size="small" {...prev} />
+          <span className="text-sm text-gray-500">{formatOffset(activeOffset - 60)}</span>
+        </div>
+        <div className="flex flex-col items-center gap-2">
+          <AnalogClock size="large" {...main} activeOffset={activeOffset} onOffsetChange={setActiveOffset} />
+          <span className="text-base font-semibold">{formatOffset(activeOffset)}</span>
+        </div>
+        <div className="flex flex-col items-center gap-2">
+          <AnalogClock size="small" {...next} />
+          <span className="text-sm text-gray-500">{formatOffset(activeOffset + 60)}</span>
+        </div>
       </div>
       <WorldMap activeOffset={activeOffset} onOffsetChange={setActiveOffset} />
     </div>

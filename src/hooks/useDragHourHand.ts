@@ -1,8 +1,8 @@
-import { useRef, useCallback } from "react";
+import React, { useCallback } from "react";
 
 export const useDragHourHand = (
   activeOffset: number,
-  onOffsetChange: (offset: number) => void
+  onOffsetChange: (offset: number) => void,
 ) => {
   const getAngle = (e: MouseEvent, svg: SVGSVGElement) => {
     const rect = svg.getBoundingClientRect();
@@ -40,7 +40,7 @@ export const useDragHourHand = (
       window.addEventListener("mousemove", onMove);
       window.addEventListener("mouseup", onUp);
     },
-    [activeOffset, onOffsetChange]
+    [activeOffset, onOffsetChange],
   );
 
   return { onMouseDown };

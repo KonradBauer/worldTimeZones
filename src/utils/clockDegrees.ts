@@ -1,6 +1,5 @@
 export const getClockDegrees = (offsetMinutes: number, now: Date) => {
-  const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
-  const localMs = utcMs + offsetMinutes * 60000;
+  const localMs = now.getTime() + offsetMinutes * 60000;
   const d = new Date(localMs);
   const h = d.getUTCHours() % 12;
   const m = d.getUTCMinutes();

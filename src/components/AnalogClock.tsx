@@ -18,14 +18,24 @@ export const AnalogClock = ({
   activeOffset = 0,
   onOffsetChange,
 }: AnalogClockProps) => {
-  const dim = size === "large" ? 280 : 120;
+  const dim = size === "large" ? 820 : 480;
   const svgRef = useRef<SVGSVGElement>(null);
-  const { onMouseDown } = useDragHourHand(activeOffset, onOffsetChange ?? (() => {}));
+  const { onMouseDown } = useDragHourHand(
+    activeOffset,
+    onOffsetChange ?? (() => {}),
+  );
   const draggable = !!onOffsetChange;
 
   return (
     <svg ref={svgRef} viewBox="0 0 200 200" width={dim} height={dim}>
-      <circle cx="100" cy="100" r="95" fill="white" stroke="#222" strokeWidth="3" />
+      <circle
+        cx="100"
+        cy="100"
+        r="95"
+        fill="white"
+        stroke="#222"
+        strokeWidth="3"
+      />
 
       {Array.from({ length: 12 }, (_, i) => {
         const angle = (i * 30 * Math.PI) / 180;
@@ -45,7 +55,10 @@ export const AnalogClock = ({
       })}
 
       <line
-        x1="100" y1="100" x2="100" y2="45"
+        x1="100"
+        y1="100"
+        x2="100"
+        y2="45"
         stroke="#222"
         strokeWidth="5"
         strokeLinecap="round"
@@ -54,11 +67,18 @@ export const AnalogClock = ({
           transition: draggable ? "none" : "transform 0.3s ease",
           cursor: draggable ? "grab" : "default",
         }}
-        onMouseDown={draggable ? (e) => onMouseDown(e as never, svgRef.current!) : undefined}
+        onMouseDown={
+          draggable
+            ? (e) => onMouseDown(e as never, svgRef.current!)
+            : undefined
+        }
       />
 
       <line
-        x1="100" y1="100" x2="100" y2="22"
+        x1="100"
+        y1="100"
+        x2="100"
+        y2="22"
         stroke="#222"
         strokeWidth="3"
         strokeLinecap="round"
@@ -67,7 +87,10 @@ export const AnalogClock = ({
       />
 
       <line
-        x1="100" y1="115" x2="100" y2="18"
+        x1="100"
+        y1="115"
+        x2="100"
+        y2="18"
         stroke="#e03030"
         strokeWidth="1.5"
         strokeLinecap="round"

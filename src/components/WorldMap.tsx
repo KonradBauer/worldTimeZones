@@ -1,45 +1,75 @@
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
-import { countryTimezones } from "../utils/countryTimezones";
 
 interface WorldMapProps {
   activeOffset: number;
+  onOffsetChange: (offset: number) => void;
 }
 
-const getTimezoneOffset = (tz: string): number => {
-  const now = new Date();
-  const utc = new Date(now.toLocaleString("en-US", { timeZone: "UTC" }));
-  const local = new Date(now.toLocaleString("en-US", { timeZone: tz }));
-  return Math.round((local.getTime() - utc.getTime()) / 60000);
+const OFFSETS = Array.from({ length: 27 }, (_, i) => i - 12);
+
+const bandsGeoJson = {
+  type: "FeatureCollection",
+  features: OFFSETS.map((offset) => ({
+    type: "Feature",
+    properties: { offset },
+    geometry: {
+      type: "Polygon",
+      coordinates: [[
+        [offset * 15 - 7.5, 85],
+        [offset * 15 + 7.5, 85],
+        [offset * 15 + 7.5, -85],
+        [offset * 15 - 7.5, -85],
+        [offset * 15 - 7.5, 85],
+      ]],
+    },
+  })),
 };
 
-export const WorldMap = ({ activeOffset }: WorldMapProps) => {
+export const WorldMap = ({ activeOffset, onOffsetChange }: WorldMapProps) => {
+  const activeHour = Math.round(activeOffset / 60);
+
   return (
-    <ComposableMap
-      width={800}
-      height={400}
-      style={{ width: "100%", height: "auto" }}
-    >
-      <Geographies geography="/world.json">
+    <ComposableMap width={800} height={400} style={{ width: "100%", height: "auto" }}>
+      <Geographies geography={bandsGeoJson}>
         {({ geographies }) =>
           geographies.map((geo) => {
-            const tz = countryTimezones[geo.id];
-            const offset = tz ? getTimezoneOffset(tz) : undefined;
-            const isActive = offset !== undefined && offset === activeOffset;
+            const offset = geo.properties.offset as number;
+            const isActive = offset === activeHour;
             return (
               <Geography
-                key={geo.rsmKey}
+                key={`band-${offset}`}
                 geography={geo}
-                fill={isActive ? "#3b82f6" : "#d1d5db"}
-                stroke="#fff"
+                fill={isActive ? "rgba(59,130,246,0.3)" : offset % 2 === 0 ? "rgba(200,215,230,0.15)" : "rgba(180,200,220,0.08)"}
+                stroke="rgba(100,140,180,0.2)"
                 strokeWidth={0.4}
+                onClick={() => onOffsetChange(offset * 60)}
                 style={{
-                  default: { outline: "none" },
-                  hover: { outline: "none" },
+                  default: { outline: "none", cursor: "pointer" },
+                  hover: { outline: "none", fill: "rgba(59,130,246,0.2)" },
                   pressed: { outline: "none" },
                 }}
               />
             );
           })
+        }
+      </Geographies>
+
+      <Geographies geography="/world.json">
+        {({ geographies }) =>
+          geographies.map((geo) => (
+            <Geography
+              key={geo.rsmKey}
+              geography={geo}
+              fill="rgba(180,190,200,0.6)"
+              stroke="#fff"
+              strokeWidth={0.4}
+              style={{
+                default: { outline: "none", pointerEvents: "none" },
+                hover: { outline: "none", pointerEvents: "none" },
+                pressed: { outline: "none", pointerEvents: "none" },
+              }}
+            />
+          ))
         }
       </Geographies>
     </ComposableMap>
